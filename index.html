@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <title>New Tab</title>
+    <style>
+      body {
+      /*  background-color: teal;*/
+      }
+
+      img {
+        height: 100px;
+        weight: 100px;
+        margin: 0 auto;
+      }
+
+      li {
+        text-align: center;
+        padding-top: 5px;
+        margin: 1px;
+        padding:3px;
+        color: black;
+        width: 130px;
+        height: 130px;
+        list-style-type: none;
+        cursor: pointer;
+        /*cursor:move;*/
+      }
+
+      a {
+        text-decoration:none;
+      }
+      /* Gridster styles */
+
+        .gridster {
+            width: 100%;
+            margin: auto;
+        }
+
+        .gridster > * {
+            margin: 0 auto;
+            -webkit-transition: height .4s, width .4s;
+            -moz-transition: height .4s, width .4s;
+            -o-transition: height .4s, width .4s;
+            -ms-transition: height .4s, width .4s;
+            transition: height .4s, width .4s;
+        }
+
+        .gridster .gs-w {
+            z-index: 2;
+            position: absolute;
+        }
+    </style>
+
+    <script src='jquery-2.1.0.js'></script>
+    <script src='jquery.gridster.js'></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="gridster">
+    <ul>
+
+    </ul>
+</div>
+  </body>
+</html>
