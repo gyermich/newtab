@@ -1,6 +1,7 @@
  $(function(){
    var widgets = [];
    var appList = [];
+   var orderedArr = [];
 
 
    function biggestIcon(icons) {
@@ -21,27 +22,24 @@
     // check if ordered array exists, push the rest of them into an array
 
      for ( var xi in extensionInfos ){
+      i = biggestIcon(extensionInfos[xi].icons);
+
        if (extensionInfos[xi].isApp) {
-
-        appList.push(extensionInfos[xi]);
-        i = biggestIcon(extensionInfos[xi].icons);
-
-        order();
-
-
-        for ( var x in orderedArr){
-          console.log(orderedArr[x]);
-         gridster.add_widget('<div class="drag"><li class="new" id="'+
-                            orderedArr[x].id +
-                            '" "><img id="'+ orderedArr[x].id +
-                            '" src=' +
-                            orderedArr[x].icons[i].url +
-                            '></br>' +
-                            orderedArr[x].shortName +
-                            '</li></div>', 2,2);
-          }
+         appList.push('<div class="drag"><li class="new" id="'+
+                              extensionInfos[xi].id +
+                              '" "><img id="'+ extensionInfos[xi].id +
+                              '" src=' +
+                              extensionInfos[xi].icons[i].url +
+                              '></br>' +
+                              extensionInfos[xi].shortName +
+                              '</li></div>', 2,2);
+         console.log(applist);
         }
      }
+     order();
+     for ( var x = 0;  x < orderedArr.length; x++){
+      gridster.add_widget(orderedArr[x]);
+       }
    }
 
 
@@ -49,8 +47,8 @@
 
 
     function order() {
-      var orderedArr = [],
-          savedOrder = localStorage.getItem('orderedArr');
+      var savedOrder = localStorage.getItem('orderedArr');
+          alert('im here');
 
     if (savedOrder)
       orderedArr = savedOrder.split(',');
@@ -60,6 +58,7 @@
         for (var x = 0; x < appList.Length; x++) {
           if (orderedArr[i] !== appList[x]) {
             orderedArr.push(appList[x]);
+            console.log(orderedArr);
             }
           }
 
@@ -133,9 +132,3 @@
 
     });
 
-      //   $('.js-resize-random').on('click', function() {
-      //       gridster.resize_widget(gridster.$widgets.eq(getRandomInt(0, 9)),
-      //           getRandomInt(1, 4), getRandomInt(1, 4))
-      //   });
-
-      // });
