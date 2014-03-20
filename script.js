@@ -41,9 +41,8 @@
     chrome.management.getAll(apps);
 
       $(this).on('mouseup', function(ev){
-        if (dragged === true) {
+        if (dragged) {
           // set_order();
-          console.log("hmmm");
           dragged = false;
         }
         else {
@@ -80,7 +79,7 @@
                       stop: function(event, ui){
                         $oWidgets = this.serialize_changed();
                         // saveWidgets($oWidgets);
-                        // localStorage
+                        localStorage.setItem("orderedArr", JSON.stringify($oWidgets));
                         console.log($oWidgets)
                       }
                   }
