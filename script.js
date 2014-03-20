@@ -1,5 +1,8 @@
  $(function(){
    var widgets = [];
+   var dragged = false;
+
+   // localStorage.setItem('string', "hello");
 
    function biggestIcon(icons) {
     var biggest = 0;
@@ -20,14 +23,16 @@
        if (extensionInfos[xi].isApp) {
          i = biggestIcon(extensionInfos[xi].icons);
 
-         gridster.add_widget('<div class="title"><li class="new" id="'+
+         extensionInfos
+
+         gridster.add_widget('<li class="new" id="'+
                             extensionInfos[xi].id +
                             '" "><img id="'+ extensionInfos[xi].id +
                             '" src=' +
                             extensionInfos[xi].icons[i].url +
                             '></br>' +
                             extensionInfos[xi].shortName +
-                            '</li></div>', 2,2);
+                            '</li>', 2,2);
         }
      }
    }
@@ -35,29 +40,58 @@
 
     chrome.management.getAll(apps);
 
-    var dragged = false;
-
       $(this).on('mouseup', function(ev){
-        if (dragged) {
+        if (dragged === true) {
+          // set_order();
+          console.log("hmmm");
           dragged = false;
         }
         else {
           launchApp(ev.target.id);
         }
       });
-      $(this).on('mousemove', function(ev){
-        dragged = true;
-        });
-
 
     function launchApp(appID) {
       chrome.management.launchApp(appID);
       window.close();
     }
 
+
+
+
       gridster = $(".gridster > ul").gridster({
           widget_margins: [5, 5],
-          widget_base_dimensions: [100, 55]
+          widget_base_dimensions: [100, 55],
+              serialize_params: function($w, wgd) {
+              return {
+                  x: wgd.col,
+                  y: wgd.row,
+                  width: wgd.size_x,
+                  height: wgd.size_y,
+                  id: $($w).attr('id'),
+                  class: $($w).attr('class')
+              };
+          },
+
+          draggable: {
+                      start: function(event, ui) {
+                                 dragged = true;
+                         },
+                      stop: function(event, ui){
+                        $oWidgets = this.serialize_changed();
+                        // saveWidgets($oWidgets);
+                        // localStorage
+                        console.log($oWidgets)
+                      }
+                  }
+
       }).data('gridster');
+
+
+      function set_order(){
+        $( "li" ).each(function( index ) {
+          // console.log( index + ": " + $( this ).text() );
+        });
+      }
 
     });
