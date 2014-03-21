@@ -53,27 +53,17 @@
 
       // compare widget id's and if id not there
         chrome.management.getAll( function(extensionInfos){
+          console.log(extensionInfos);
           var appID;
           for ( var xi in extensionInfos ){
             if (extensionInfos[xi].isApp) {
               appID = extensionInfos[xi].id;
               for ( var x in json ){
-
-
                 if (appID !== json[x]['id']) {
-                  i = biggestIcon(extensionInfos[xi].icons);
                   console.log(extensionInfos[xi].id );
                   // console.log(json[x]['id']);
 
-                  // add_widget to gridster
-                  // gridster.add_widget('<li class="new" id="'+
-                  //                    extensionInfos[xi].id +
-                  //                    '" "><img id="'+ extensionInfos[xi].id +
-                  //                    '" src=' +
-                  //                    extensionInfos[xi].icons[i].url +
-                  //                    '></br>' +
-                  //                    extensionInfos[xi].shortName +
-                  //                    '</li>', 2,2);
+                  // gridster_widget(extensionInfos[xi]);
                   }
                 }
              }
@@ -86,15 +76,7 @@
       chrome.management.getAll(function(extensionInfos){
      for ( var xi in extensionInfos ){
        if (extensionInfos[xi].isApp) {
-         i = biggestIcon(extensionInfos[xi].icons);
-         gridster.add_widget('<li class="new" id="'+
-                            extensionInfos[xi].id +
-                            '" "><img id="'+ extensionInfos[xi].id +
-                            '" src=' +
-                            extensionInfos[xi].icons[i].url +
-                            '></br>' +
-                            extensionInfos[xi].shortName +
-                            '</li>', 2,2);
+          gridster_widget(extensionInfos[xi]);
         }
      }
    });
@@ -117,6 +99,18 @@
       }
     }
     return biggest;
+   }
+
+   function gridster_widget(extensionInfo){
+     i = biggestIcon(extensionInfos[xi].icons);
+     gridster.add_widget('<li class="new" id="'+
+                        extensionInfo.id +
+                        '" "><img id="'+ extensionInfo.id +
+                        '" src=' +
+                        extensionInfo.icons[i].url +
+                        '><br>' +
+                        extensionInfo.shortName +
+                        '</li>', 2,2);
    }
 
     $(this).on('mouseup', function(ev){
