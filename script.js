@@ -25,7 +25,6 @@
                          $oWidgets = this.serialize();
                          localStorage.removeItem("orderedArr");
                          localStorage.setItem("orderedArr", JSON.stringify($oWidgets));
-                         console.log($oWidgets);
                        }
                    }
 
@@ -54,12 +53,17 @@
 
       // compare widget id's and if id not there
         chrome.management.getAll( function(extensionInfos){
+          var appID;
           for ( var xi in extensionInfos ){
-            for ( var x in json ){
-              if (extensionInfos[xi].isApp) {
-                if (extensionInfos[xi].id  != json[x]['id']) {
+            if (extensionInfos[xi].isApp) {
+              appID = extensionInfos[xi].id;
+              for ( var x in json ){
 
+
+                if (appID !== json[x]['id']) {
                   i = biggestIcon(extensionInfos[xi].icons);
+                  console.log(extensionInfos[xi].id );
+                  // console.log(json[x]['id']);
 
                   // add_widget to gridster
                   // gridster.add_widget('<li class="new" id="'+
@@ -80,13 +84,9 @@
         // if order is not stored in localstorage just render the apps
     } else {
       chrome.management.getAll(function(extensionInfos){
-
-
      for ( var xi in extensionInfos ){
        if (extensionInfos[xi].isApp) {
          i = biggestIcon(extensionInfos[xi].icons);
-
-
          gridster.add_widget('<li class="new" id="'+
                             extensionInfos[xi].id +
                             '" "><img id="'+ extensionInfos[xi].id +
