@@ -1,7 +1,7 @@
 {
    "manifest_version": 2,
-   "name": "my_new_tab",
-   "description": "Apps and bookmarks on a new tab page",
+   "name": "Simple Tab",
+   "description": "Access your apps on a new tab page",
    "version": "1.0",
    "permissions": ["management", "tabs"],
    "icons": {

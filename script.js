@@ -91,6 +91,7 @@
             if (xi.isApp) {
                 if (lsIds.indexOf(xi.id) < 0) {
                   gridster_widget(xi);
+                  // console.log(xi.id);
                 }
              }
           });
@@ -113,7 +114,7 @@
      });
     }
 
-    $("li").on('mouseup', function(ev){
+    $(this).on('mouseup', function(ev){
       if (dragged) {
         dragged = false;
       }
