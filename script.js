@@ -19,6 +19,7 @@
     $(function(){
      var widgets = [],
          dragged = false;
+         extIds = [];
 
     var gridster = $(".gridster > ul").gridster({
          widget_margins: [5, 5],
@@ -75,26 +76,30 @@
                                       json[i]['y']
                              );
         }
+
         chrome.management.getAll( function(extensionInfos){
-          var extIds = extensionInfos.map(function(xi){
+          extensionInfos.forEach(function(xi){
             if(xi.isApp){
-              return xi.id;
+              extIds.push(xi.id);
             }
           });
+          return extIds;
+        });
+
+          chrome.management.getAll( function(extensionInfos){
           extensionInfos.forEach(function(xi) {
             if (xi.isApp) {
                 if (lsIds.indexOf(xi.id) < 0) {
                   gridster_widget(xi);
-                  // console.log(xi.id);
                 }
              }
           });
           json.forEach(function(el, index){
-            console.log(extIds);
             if (extIds.indexOf(el.id) < 0){
-              json[index].splice(index, 1);
-                // console.log($('.gridster li#' + el.id   ) );
-               gridster.remove_widget( $('.gridster li'.eq(index) ) );
+               gridster.remove_widget( $('.gridster li#' + el.id));
+               $oWidgets = gridster.serialize();
+               localStorage.removeItem("orderedArr");
+               localStorage.setItem("orderedArr", JSON.stringify($oWidgets));
             }
           });
         });
