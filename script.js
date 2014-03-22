@@ -11,18 +11,6 @@
      return biggest;
     }
 
-    function gridster_widget(extensionInfo){
-      var i = biggestIcon(extensionInfo.icons);
-      gridster.add_widget('<li class="new" id="'+
-                         extensionInfo.id +
-                         '" "><img id="'+ extensionInfo.id +
-                         '" src=' +
-                         extensionInfo.icons[i].url +
-                         '><br>' +
-                         extensionInfo.shortName +
-                         '</li>', 2,2);
-    }
-
      function launchApp(appID) {
        chrome.management.launchApp(appID);
        window.close();
@@ -60,6 +48,18 @@
 
      }).data('gridster');
 
+    function gridster_widget(extensionInfo){
+      var i = biggestIcon(extensionInfo.icons);
+      gridster.add_widget('<li class="new" id="'+
+                         extensionInfo.id +
+                         '" "><img id="'+ extensionInfo.id +
+                         '" src=' +
+                         extensionInfo.icons[i].url +
+                         '><br>' +
+                         extensionInfo.shortName +
+                         '</li>', 2,2);
+    }
+
     if (localStorage.getItem('orderedArr') !== null) {
       var json = JSON.parse(localStorage.getItem('orderedArr'));
       var lsIds = json.map(function(el){
@@ -76,13 +76,26 @@
                              );
         }
         chrome.management.getAll( function(extensionInfos){
-          var appID;
+          var extIds = extensionInfos.map(function(xi){
+            if(xi.isApp){
+              return xi.id;
+            }
+          });
           extensionInfos.forEach(function(xi) {
             if (xi.isApp) {
                 if (lsIds.indexOf(xi.id) < 0) {
                   gridster_widget(xi);
+                  // console.log(xi.id);
                 }
              }
+          });
+          json.forEach(function(el, index){
+            console.log(extIds);
+            if (extIds.indexOf(el.id) < 0){
+              json[index].splice(index, 1);
+                // console.log($('.gridster li#' + el.id   ) );
+               gridster.remove_widget( $('.gridster li'.eq(index) ) );
+            }
           });
         });
       } else {
