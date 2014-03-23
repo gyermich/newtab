@@ -41,6 +41,7 @@
                                 dragged = true;
                         },
                      stop: function(event, ui){
+                       dragged = false;
                        $oWidgets = this.serialize();
                        localStorage.removeItem("orderedArr");
                        localStorage.setItem("orderedArr", JSON.stringify($oWidgets));
@@ -91,7 +92,6 @@
             if (xi.isApp) {
                 if (lsIds.indexOf(xi.id) < 0) {
                   gridster_widget(xi);
-                  // console.log(xi.id);
                 }
              }
           });
@@ -113,14 +113,10 @@
        });
      });
     }
-
-    $(this).on('mouseup', function(ev){
-      if (dragged) {
-        dragged = false;
-      }
-      else {
-        launchApp(ev.target.id);
-      }
+      $('body').on('mouseup', 'li', function(ev){
+        if (!dragged) {
+          launchApp(ev.target.id);
+        }
     });
   });
  })( jQuery, this );
